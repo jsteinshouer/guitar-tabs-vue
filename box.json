@@ -1,0 +1,25 @@
+{
+    "name":"My Tabs",
+    "version":"0.0.0",
+    "location":"",
+    "author":"Jason Steinshouer",
+    "slug":"my-tabs",
+    "createPackageDirectory":false,
+    "ignore":[],
+    "devDependencies":{
+        "testbox":"^2.7.0+167"
+    },
+    "installPaths":{
+        "testbox":"testbox",
+        "cborm":"modules/cborm",
+        "coldbox":"coldbox"
+    },
+    "dependencies":{
+        "cborm":"^1.4.0+79",
+        "coldbox":"^5.1.3+737"
+    },
+    "scripts":{
+        "dev" : "start --force && !npm run serve --prefix ./client-app",
+        "build" : "task run ./build/scripts/build"
+    }
+}
