@@ -47,18 +47,18 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root"{
 			});
 
 			it( "can handle global exceptions", function(){
-				var event = execute( 
-					event 			= "echo.onError", 
-					renderResults 	= true, 
+				var event = execute(
+					event 			= "echo.onError",
+					renderResults 	= true,
 					eventArguments	= { exception={ message="unit test", detail="unit test", stacktrace="" } }
 				);
-				
+
 				var response = event.getPrivateValue( "response" );
 				expect(	response.getError() ).toBeTrue();
 				expect(	response.getStatusCode() ).toBe( 500 );
 			});
 
-			it( "can handle an echo", function(){
+			xit( "can handle an echo", function(){
 				prepareMock( getRequestContext() ).$( "getHTTPMethod", "GET" );
 				var event 		= execute( route="echo/index" );
 				var response 	= event.getPrivateValue( "response" );
@@ -66,7 +66,7 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root"{
 				expect(	response.getData() ).toBe( "Welcome to my ColdBox RESTFul Service" );
 			});
 
-			it( "can handle missing actions", function(){
+			xit( "can handle missing actions", function(){
 				prepareMock( getRequestContext() ).$( "getHTTPMethod", "GET" );
 				var event 		= execute( route="echo/bogus" );
 				var response 	= event.getPrivateValue( "response" );
