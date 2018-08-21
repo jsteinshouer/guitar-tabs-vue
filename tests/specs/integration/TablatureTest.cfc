@@ -50,17 +50,17 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root"{
 
 			     	transaction action="rollback";
 				}
-			    
+
 			} );
 
 			describe( "GET /tablatures/:id", function(){
-				
+
 				it( "should get a tab", function(){
 
 					var tab = entityNew("Tablature").setTitle("My Tab Title").setContent("test content")
 
 					entitySave( tab );
-					
+
 					var event = get( route = "tablature/" & tab.getTablatureID()  );
 
 					var response 	= event.getPrivateValue( "response" );
@@ -69,23 +69,23 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root"{
 					expect(	response.getData().getTitle() ).toBe( "My Tab Title" );
 					expect(	response.getData().getContent() ).toBe( "test content" );
 
-				});	
-			
+				});
+
 			});
 
-			
+
 			describe( "GET /tablatures", function(){
-				
+
 				// beforeEach(function( currentSpec ){
 				// 	queryExecute("delete from tablature;")
 				// });
-				
+
 
 				it( "should list existing tabs", function(){
 
 					entitySave( entityNew("Tablature").setTitle("test 1").setContent("test 1") );
 					entitySave( entityNew("Tablature").setTitle("test 2").setContent("test 2") );
-					
+
 					var event = get( route = "tablature" );
 
 					var response 	= event.getPrivateValue( "response" );
@@ -93,21 +93,21 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root"{
 					expect(	response.getData().len() ).toBe( 2 );
 					expect(	response.getData()[1].getContent() ).toBe( "test 1" );
 
-				});	
-			
+				});
+
 			});
 
-			
+
 			describe( "POST /tablature", function(){
-			
+
 				it( "should create a new tab", function(){
-					
-					var event = post( 
+
+					var event = post(
 						route = "tablature",
 						params = {
 							title = "Test Tab Title",
 							content = "Some Tab Content"
-						} 
+						}
 					);
 
 					var response 	= event.getPrivateValue( "response" );
@@ -116,7 +116,28 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root"{
 					expect(	response.getData().title ).toBe( "Test Tab Title" );
 					expect(	response.getData().content ).toBe( "Some Tab Content" );
 				});
-				
+
+			});
+
+			describe( "DELETE /tablature", function(){
+
+				it( "should delete tab record", function(){
+
+					var testTab = entityNew("Tablature").setTitle("test 1").setContent("test 1");
+					entitySave( testTab );
+					expect(	entityLoad("Tablature").len() ).toBe( 1 );
+
+					var event = delete(
+						route = "tablature/#testTab.getTablatureID()#"
+					);
+
+					var response 	= event.getPrivateValue( "response" );
+
+					ormFlush();
+					expect(	response.getStatusCode() ).toBe( 200 );
+					expect(	entityLoad("Tablature").len() ).toBe( 0 );
+				});
+
 			});
 
 

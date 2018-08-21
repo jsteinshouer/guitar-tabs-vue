@@ -4,18 +4,18 @@
 component extends="BaseHandler"{
 
 	property name="tablatureService" inject="tablature.TablatureService";
-	
+
 	// OPTIONAL HANDLER PROPERTIES
 	this.prehandler_only 	= "";
 	this.posthandler_only 	= "";
 	this.prehandler_except 	= "";
 	this.posthandler_except = "";
 	this.aroundHandler_only = "";
-	this.aroundHandler_except = "";		
+	this.aroundHandler_except = "";
 
 	// REST Allowed HTTP Methods Ex: this.allowedMethods = {delete='POST,DELETE',index='GET'}
 	this.allowedMethods = { };
-	
+
 	/**
 	* Index
 	*/
@@ -25,7 +25,7 @@ component extends="BaseHandler"{
 
 
 	/**
-	* Read a 
+	* Read a
 	*/
 	any function show( event, rc, prc ){
 		prc.response.setData( tablatureService.getByID( rc.id ) );
@@ -43,5 +43,16 @@ component extends="BaseHandler"{
 		prc.response.setData( tab.getMemento() );
 		prc.response.setStatusCode( 201 );
 	}
-	
+
+	/**
+	* Delete a tablature record
+	*/
+	any function delete( event, rc, prc ){
+
+		var tab = tablatureService.getByID( rc.id );
+
+		tablatureService.deleteEntity( tab );
+		prc.response.setStatusCode( 200 );
+	}
+
 }
