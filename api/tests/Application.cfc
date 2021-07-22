@@ -20,14 +20,9 @@ component{
 	this.mappings["/root"]   = rootPath;
 	this.mappings["/models"]   = rootPath & "/models";
 
-	// this.datasources["TABS"] = {
-	// 	  class: 'org.h2.Driver'
-	// 	, connectionString: 'jdbc:h2:mem:tabs_test;MODE=MSSQLServer'
-	// };
-
 	this.datasources["TABS"] = {
 		  class: 'org.h2.Driver'
-		, connectionString: 'jdbc:h2:#rootPath#/db/tabs_test;MODE=MSSQLServer'
+		, connectionString: 'jdbc:h2:#rootPath#/.data/tabs_test;MODE=MSSQLServer'
 	};
 
 	this.datasource = "TABS";

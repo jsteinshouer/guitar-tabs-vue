@@ -7,20 +7,16 @@ desktop.ini
 
 # Database
 db
-
-client-app/dist
-assets/js
-assets/css
-views/main/index.cfm
+.data
 
 # NPM, Bower, ETC
 **/node_modules/*
 **/bower_components/*
 
 ## Ignored Dependencies
-coldbox/*
-testbox/*
-modules/*
+**/coldbox/*
+**/testbox
+**/modules/*
 **/apidocs/**
 
 # local env files

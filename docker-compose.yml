@@ -1,0 +1,30 @@
+version: '3.5'
+services:
+
+    guitar-tabs-api:
+        build: 
+            context: .
+            target: dev-api
+        container_name: guitar-tabs-api
+        ports:
+            - 8080:8080
+        volumes:
+            - ./api:/app
+            - /app/modules
+        environment:
+            - PORT=8080
+
+    guitar-tabs-app:
+        build:
+            context: .
+            target: dev-app
+        volumes:
+        - ./app:/app
+        - /app/node_modules
+        container_name: guitar-tabs-app
+        ports:
+            - 3000:3000
+        links:
+            - guitar-tabs-api
+        environment: 
+            CHOKIDAR_USEPOLLING: 'true'

@@ -21,7 +21,7 @@ component{
 
 	this.datasources["TABS"] = {
 		  class: 'org.h2.Driver'
-		, connectionString: 'jdbc:h2:#getDirectoryFromPath( getCurrentTemplatePath() )#/db/tabs;MODE=MSSQLServer'
+		, connectionString: 'jdbc:h2:#getDirectoryFromPath( getCurrentTemplatePath() )#/.data/tabs;MODE=MSSQLServer'
 	};
 
 	this.datasource = "TABS";

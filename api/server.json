@@ -1,0 +1,18 @@
+{
+    "openBrowser":false,
+    "web":{
+        "app":{
+            "cfengine":"lucee@5.3.7"
+        },
+        "http":{
+            "port":3000
+        },
+        "rewrites":{
+            "enable":true
+        }
+    },
+    "JVM":{
+        "args":"",
+        "heapSize":"1024"
+    }
+}
