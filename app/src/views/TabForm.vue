@@ -2,7 +2,7 @@
   <v-flex xs12>
 	<v-card class="lighten-5">
 		<v-card-title primary-title>
-        	<div class="headline">Add Tab</div>
+			<div class="headline">Add Tab</div>
 		</v-card-title>
 		<v-card-text>
 		<v-flex xs6>
@@ -17,14 +17,14 @@
 			></v-text-field>
 		</v-flex>
 		<v-textarea
-          name="content"
-          label="Tab"
-          box
-          v-model="tab.content"
-          hint="Tab Content"
-          rows="15"
-        ></v-textarea>
-    </v-card-text>
+			name="content"
+			label="Tab"
+			box
+			v-model="tab.content"
+			hint="Tab Content"
+			rows="15"
+		></v-textarea>
+	</v-card-text>
 		<v-card-actions>
 			<v-btn @click="saveTab">Save</v-btn>
 		</v-card-actions>
@@ -34,19 +34,19 @@
 
 <script>
 export default {
-  data() {
-  	return {
-  		tab: {
-  			title: "",
-  			content: ""
-  		}
-  	}
-  },
-  methods: {
-	saveTab() {
-		this.$store.dispatch('createTab', this.tab);
+	data() {
+		return {
+			tab: {
+				title: "",
+				content: ""
+			}
+		}
+	},
+	methods: {
+		saveTab() {
+			this.$store.dispatch('createTab', this.tab);
+		}
 	}
-  }
 }
 </script>
 

@@ -1,10 +1,10 @@
 <template>
-  <v-card>
-  	<!-- <v-card-title>{{tab.title}}</v-card-title> -->
-    <v-card-text>
-    	<pre>{{tab.content}}</pre>
-    </v-card-text>
-  </v-card>
+	<v-card>
+		<!-- <v-card-title>{{tab.title}}</v-card-title> -->
+		<v-card-text>
+			<pre>{{tab.content}}</pre>
+		</v-card-text>
+	</v-card>
 </template>
 
 <script>
@@ -20,7 +20,7 @@ export default {
 		}
 	},
 	watch: {
-		'$route': function(to, from) {
+		'$route': function(to) {
 			this.id = to.params.id;
 			this.$store.commit("setCurrentTab", {tablaureID: 0, title: "", content: ""});
 			this.$store.dispatch("getTab", {id: this.id});

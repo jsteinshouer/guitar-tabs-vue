@@ -31,7 +31,6 @@ export default new Vuex.Store({
 
 			Vue.http.post('/tablature', payload)
 				.then(response => {
-					// console.log(response);
 					context.commit("addTab", response.data.data );
 				}, error => {
 					console.log(error);
