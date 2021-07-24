@@ -4,6 +4,13 @@
 		<v-card-text>
 			<pre>{{tab.content}}</pre>
 		</v-card-text>
+		<v-card-actions>
+			<v-btn
+				elevation="2"
+				color="error"
+				@click="deleteTab"
+			>DELETE</v-btn>
+		</v-card-actions>
 	</v-card>
 </template>
 
@@ -30,6 +37,17 @@ export default {
 	created() {
 		this.$store.commit("setCurrentTab", {tablaureID: 0, title: "", content: ""});
 		this.$store.dispatch("getTab", {id: this.id});
+	},
+	methods: {
+		deleteTab() {
+			this.$store.dispatch("deleteTab", {id: this.id})
+				.then(() => {
+					this.$router.push( { name: "home" });
+				})
+				.catch(error => {
+					console.log(error);
+				});
+		}
 	}
 }
 </script>

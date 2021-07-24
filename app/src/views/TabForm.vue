@@ -42,16 +42,25 @@ export default {
 			}
 		}
 	},
+	created() {
+		this.$store.commit("setToolbarTitle", "My Tabs");
+	},
 	methods: {
 		saveTab() {
-			this.$store.dispatch('createTab', this.tab);
+			this.$store.dispatch('createTab', this.tab)
+				.then(data => {
+					this.$router.push( { name: "viewTab", params: { id: data.tablatureID } });
+				})
+				.catch(error => {
+					console.log(error);
+				});
 		}
 	}
 }
 </script>
 
 <style scoped>
-	>>> textarea {
+	textarea {
 		font-family: monospace !important;
 	}
 </style>

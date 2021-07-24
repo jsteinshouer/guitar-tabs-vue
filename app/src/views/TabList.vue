@@ -38,7 +38,6 @@ export default {
   },
   methods: {
     viewTab( id ) {
-      console.log("view tab");
       this.$router.push( { name: "viewTab", params: {id: id}});
     }
   }

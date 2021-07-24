@@ -17,6 +17,11 @@ export default new Vuex.Store({
 		addTab(state, payload) {
 			state.tabs.push( payload );
 		},
+		deleteTab(state, payload) {
+			state.tabs = state.tabs.filter(function(value){ 
+				return value == payload.tablatureID;
+			});
+		},
 		setTabs(state, payload) {
 			state.tabs = payload;
 			state.toolbarTitle = "My Tabs";
@@ -24,25 +29,47 @@ export default new Vuex.Store({
 		setCurrentTab(state, payload) {
 			state.currentTab = payload;
 			state.toolbarTitle = payload.title;
+		},
+		setToolbarTitle(state, payload) {
+			state.toolbarTitle = payload;
 		}
 	},
 	actions: {
 		createTab( context, payload ) {
 
-			Vue.http.post('/tablature', payload)
-				.then(response => {
-					context.commit("addTab", response.data.data );
-				}, error => {
-					console.log(error);
-				});
+			return new Promise((resolve, reject) => { 
+				Vue.http.post('/tablature', payload)
+					.then(response => {
+			
+						context.commit("addTab", response.data.data );
+
+						resolve(response.data.data);
+					}, error => {
+						reject(error);
+					});
+			});
+		},
+		deleteTab( context, payload ) {
+
+			return new Promise((resolve, reject) => { 
+				Vue.http.delete('/tablature/' + payload.id)
+					.then(response => {
+						console.log(response )
+						context.commit("deleteTab", { tablatureID: payload.id } );
+
+						resolve(response.data.data);
+					}, error => {
+						reject(error);
+					});
+			});
 		},
 		getTabs( context ) {
 
 			Vue.http.get('/tablature')
 				.then(response => {
-					// console.log(response);
 					context.commit("setTabs", response.data.data );
 				}, error => {
+
 					console.log(error);
 				});
 		},
