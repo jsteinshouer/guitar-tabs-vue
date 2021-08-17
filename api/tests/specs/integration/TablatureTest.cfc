@@ -21,6 +21,7 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root"{
 	function beforeAll(){
 		super.beforeAll();
 		// do your own stuff here
+		//getInstance( "MigrationService@cfmigrations" ).runAllMigrations( "up" );
 	}
 
 	function afterAll(){
@@ -46,8 +47,6 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root"{
 					// execute the spec
 			     	arguments.spec.body();
 
-			     	ormflush();
-
 			     	transaction action="rollback";
 				}
 
@@ -57,17 +56,19 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root"{
 
 				it( "should get a tab", function(){
 
-					var tab = entityNew("Tablature").setTitle("My Tab Title").setContent("test content")
+					var tab = getInstance( "Tab" ).create( {
+						"title": "My Tab Title",
+						"content": "test content"
+					});
 
-					entitySave( tab );
+					var event = get( route = "tablature/" & tab.getID()  );
 
-					var event = get( route = "tablature/" & tab.getTablatureID()  );
-
+					
 					var response 	= event.getPrivateValue( "response" );
 					expect(	response.getStatusCode() ).toBe( 200 );
-					expect(	response.getData().getTablatureID() ).toBe( tab.getTablatureID() );
-					expect(	response.getData().getTitle() ).toBe( "My Tab Title" );
-					expect(	response.getData().getContent() ).toBe( "test content" );
+					expect(	response.getData().id ).toBe( tab.getID() );
+					expect(	response.getData().title ).toBe( "My Tab Title" );
+					expect(	response.getData().content ).toBe( "test content" );
 
 				});
 
@@ -76,22 +77,26 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root"{
 
 			describe( "GET /tablatures", function(){
 
-				// beforeEach(function( currentSpec ){
-				// 	queryExecute("delete from tablature;")
-				// });
-
-
 				it( "should list existing tabs", function(){
 
-					entitySave( entityNew("Tablature").setTitle("test 1").setContent("test 1") );
-					entitySave( entityNew("Tablature").setTitle("test 2").setContent("test 2") );
+					var tab = getInstance( "Tab" );
+
+					var tabCount = tab.all().len();
+					tab.create( {
+						"title": "Test 1",
+						"content": "test 1"
+					});
+					tab.create( {
+						"title": "Test 2",
+						"content": "test 2"
+					});
 
 					var event = get( route = "tablature" );
 
 					var response 	= event.getPrivateValue( "response" );
 					expect(	response.getStatusCode() ).toBe( 200 );
-					expect(	response.getData().len() ).toBe( 2 );
-					expect(	response.getData()[1].getContent() ).toBe( "test 1" );
+					expect(	response.getData().len() ).toBe( tabCount + 2 );
+					expect(	response.getData()[tabCount + 1].content ).toBe( "test 1" );
 
 				});
 
@@ -112,7 +117,7 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root"{
 
 					var response 	= event.getPrivateValue( "response" );
 					expect(	response.getStatusCode() ).toBe( 201 );
-					expect(	response.getData().tablatureID ).toBeGT( 0 );
+					expect(	response.getData().id ).toBeGT( 0 );
 					expect(	response.getData().title ).toBe( "Test Tab Title" );
 					expect(	response.getData().content ).toBe( "Some Tab Content" );
 				});
@@ -123,19 +128,19 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root"{
 
 				it( "should delete tab record", function(){
 
-					var testTab = entityNew("Tablature").setTitle("test 1").setContent("test 1");
-					entitySave( testTab );
-					expect(	entityLoad("Tablature").len() ).toBe( 1 );
+					var testTab = getInstance( "Tab" ).create( {
+						"title": "Test 1",
+						"content": "test 1"
+					});
 
 					var event = delete(
-						route = "tablature/#testTab.getTablatureID()#"
+						route = "tablature/#testTab.getID()#"
 					);
 
 					var response 	= event.getPrivateValue( "response" );
 
-					ormFlush();
 					expect(	response.getStatusCode() ).toBe( 200 );
-					expect(	entityLoad("Tablature").len() ).toBe( 0 );
+					expect(	getInstance( "Tab" ).find( testTab.getID() ) ).toBeNull();
 				});
 
 			});

@@ -19,16 +19,19 @@ component{
 	rootPath = REReplaceNoCase( this.mappings[ "/tests" ], "tests(\\|/)", "" );
 	this.mappings["/root"]   = rootPath;
 	this.mappings["/models"]   = rootPath & "/models";
+	this.mappings[ "/quick" ] = rootPath & "/modules/quick";
+
+	secretUtil = new models.util.DockerSecretUtil();
 
 	this.datasources["TABS"] = {
-		  class: 'org.h2.Driver'
-		, connectionString: 'jdbc:h2:#rootPath#/.data/tabs_test;MODE=MSSQLServer'
+		class: server.system.environment.DB_CLASS
+		, bundleName: server.system.environment.DB_BUNDLENAME
+		, bundleVersion: server.system.environment.DB_BUNDLEVERSION
+		, connectionString: server.system.environment.DB_CONNECTIONSTRING
+		, username: secretUtil.getSecret( server.system.environment.DB_USER_SECRET )
+		, password: secretUtil.getSecret( server.system.environment.DB_PASSWORD_SECRET )
 	};
-
 	this.datasource = "TABS";
 
-	this.ormEnabled = true;
-	this.ormSettings.dbcreate = "dropcreate";
-	this.ormSettings.cfclocation = ["/models"];
 
 }

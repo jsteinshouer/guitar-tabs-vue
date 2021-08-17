@@ -13,6 +13,35 @@ services:
             - /app/modules
         environment:
             - PORT=8080
+            - APPNAME=${APPNAME}
+            - ENVIRONMENT=${ENVIRONMENT}
+            - DB_CONNECTIONSTRING=${DB_CONNECTIONSTRING}
+            - DB_CLASS=${DB_CLASS}
+            - DB_BUNDLENAME=${DB_BUNDLENAME}
+            - DB_BUNDLEVERSION=${DB_BUNDLEVERSION}
+            - DB_USER_SECRET=MYSQL_USER
+            - DB_PASSWORD_SECRET=MYSQL_PASSWORD
+        secrets:
+            - MYSQL_PASSWORD
+            - MYSQL_USER
+    
+    guitar-tabs-db:
+        image: mysql:latest
+        container_name: guitar-tabs-db
+        ports:
+            - 3306:3306
+        volumes:
+            - ./api:/app
+            - /app/modules
+        environment:
+            - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/MYSQL_ROOT_PASSWORD
+            - MYSQL_USER_FILE=/run/secrets/MYSQL_USER
+            - MYSQL_PASSWORD_FILE=/run/secrets/MYSQL_PASSWORD
+            - MYSQL_DATABASE=tabs_db
+        secrets:
+            - MYSQL_PASSWORD
+            - MYSQL_USER
+            - MYSQL_ROOT_PASSWORD
 
     guitar-tabs-app:
         build:
@@ -28,3 +57,11 @@ services:
             - guitar-tabs-api
         environment: 
             CHOKIDAR_USEPOLLING: 'true'
+
+secrets:
+  MYSQL_USER:
+    file: ./secrets/MYSQL_USER
+  MYSQL_PASSWORD:
+    file: ./secrets/MYSQL_PASSWORD
+  MYSQL_ROOT_PASSWORD:
+    file: ./secrets/MYSQL_ROOT_PASSWORD

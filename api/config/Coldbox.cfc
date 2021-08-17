@@ -17,7 +17,7 @@
 			defaultEvent			= "Main.index",
 			requestStartHandler		= "",
 			requestEndHandler		= "",
-			applicationStartHandler = "",
+			applicationStartHandler = "Main.onAppStart",
 			applicationEndHandler	= "",
 			sessionStartHandler 	= "",
 			sessionEndHandler		= "",
@@ -42,7 +42,9 @@
 			//Application Aspects
 			handlerCaching 			= false,
 			eventCaching			= false,
-			viewCaching				= false
+			viewCaching				= false,
+
+			autoMapModels : true
 		};
 
 		// custom settings
@@ -91,6 +93,12 @@
 		//Register interceptors as an array, we need order
 		interceptors = [
 		];
+
+		moduleSettings = {
+			quick = {
+				defaultGrammar = "MySQLGrammar@qb"
+			}
+		};
 
 		/*
 		// module setting overrides

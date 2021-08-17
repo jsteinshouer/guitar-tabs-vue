@@ -1,17 +1,22 @@
 <template>
+	<div>
 	<v-card>
 		<!-- <v-card-title>{{tab.title}}</v-card-title> -->
 		<v-card-text>
 			<pre>{{tab.content}}</pre>
 		</v-card-text>
 		<v-card-actions>
-			<v-btn
+		</v-card-actions>
+	</v-card>
+				<v-btn
 				elevation="2"
 				color="error"
 				@click="deleteTab"
-			>DELETE</v-btn>
-		</v-card-actions>
-	</v-card>
+			>
+			<v-icon left>delete</v-icon>
+			DELETE
+			</v-btn>
+</div>
 </template>
 
 <script>

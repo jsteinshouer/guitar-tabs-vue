@@ -3,8 +3,6 @@
 */
 component extends="BaseHandler"{
 
-	property name="tablatureService" inject="tablature.TablatureService";
-
 	// OPTIONAL HANDLER PROPERTIES
 	this.prehandler_only 	= "";
 	this.posthandler_only 	= "";
@@ -20,7 +18,7 @@ component extends="BaseHandler"{
 	* Index
 	*/
 	any function index( event, rc, prc ){
-		prc.response.setData( tablatureService.getAll() );
+		prc.response.setData( getInstance( "Tab" ).asMemento().all() );
 	}
 
 
@@ -28,7 +26,11 @@ component extends="BaseHandler"{
 	* Read a
 	*/
 	any function show( event, rc, prc ){
-		prc.response.setData( tablatureService.getByID( rc.id ) );
+		prc.response.setData( 
+			getInstance( "Tab" )
+				.findOrFail( rc.id )
+				.getMemento()
+		);
 	}
 
 	/**
@@ -36,10 +38,11 @@ component extends="BaseHandler"{
 	*/
 	any function create( event, rc, prc ){
 
-		var tab = tablatureService.newEntity();
-		populateModel( model = tab );
+		var tab = getInstance( "Tab" ).create( {
+			"title": rc.title,
+			"content": rc.content
+		});
 
-		tablatureService.saveEntity( tab );
 		prc.response.setData( tab.getMemento() );
 		prc.response.setStatusCode( 201 );
 	}
@@ -49,9 +52,10 @@ component extends="BaseHandler"{
 	*/
 	any function delete( event, rc, prc ){
 
-		var tab = tablatureService.getByID( rc.id );
+		getInstance( "Tab" )
+				.findOrFail( rc.id )
+				.delete();
 
-		tablatureService.deleteEntity( tab );
 		prc.response.setStatusCode( 200 );
 	}
 

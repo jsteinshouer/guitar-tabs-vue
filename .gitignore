@@ -22,6 +22,10 @@ db
 # local env files
 .env.local
 .env.*.local
+.env
+
+# Secrets
+/secrets
 
 # Log files
 npm-debug.log*

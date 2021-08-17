@@ -1,5 +1,5 @@
 /**
-* Tablature Test
+* Tab Test
 */
 component extends="testbox.system.BaseSpec"{
 	
@@ -19,14 +19,14 @@ component extends="testbox.system.BaseSpec"{
 
 	function run( testResults, testBox ){
 
-		describe( "Tablature Test", function() {
+		describe( "Tab Test", function() {
 
 			beforeEach(function( currentSpec ){
 				
 			});
 
 			it( "should have a title property", function(){
-				var tab = new models.tablature.Tablature();
+				var tab = new models.entities.Tab();
 
 				var myTestTitle = "My Tab";
 
@@ -36,7 +36,7 @@ component extends="testbox.system.BaseSpec"{
 			});
 
 			it( "should have a content property", function(){
-				var tab = new models.tablature.Tablature();
+				var tab = new models.entities.Tab();
 
 				var myTestContent = "Some test content";
 
