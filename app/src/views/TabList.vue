@@ -2,9 +2,9 @@
 <v-card>
   <v-card-title>Tabs</v-card-title>
   <v-list two-line subheader>
-      <v-skeleton-loader type="list-item-avatar" v-if="loading"></v-skeleton-loader>
-      <v-skeleton-loader type="list-item-avatar" v-if="loading"></v-skeleton-loader>
-      <v-skeleton-loader type="list-item-avatar" v-if="loading"></v-skeleton-loader>
+    <div v-if="loading"> 
+      <v-skeleton-loader v-for="n in loaderItemCount" :key="n" type="list-item-avatar"></v-skeleton-loader>
+    </div>
     <div v-if="!loading"> 
      <v-list-item
           v-for="tab in tabs"
@@ -28,7 +28,8 @@
 export default {
   data() {
     return {
-      loading: false
+      loading: false,
+      loaderItemCount: 0
     }
   },
   computed: {
@@ -37,10 +38,9 @@ export default {
     }  
   },
   created() {
+    this.loaderItemCount = this.tabs.length > 0 ? this.tabs.length : 3;
     var vm = this;
-    if ( this.tabs.length > 0 ) {
-      vm.loading = true;
-    }
+    vm.loading = true;
     this.$store.dispatch('getTabs')
       .then(() => {
         vm.loading = false;
