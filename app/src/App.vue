@@ -11,30 +11,30 @@
       app
     >
       <v-list dense>
-        <v-list-tile v-for="item in items" :key="item.text"  router :to="item.route" ripple active-class
+        <v-list-item v-for="item in items" :key="item.text"  router :to="item.route" ripple active-class
 >
-          <v-list-tile-action>
+          <v-list-item-action>
             <v-icon>{{ item.icon }}</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>
               {{ item.text }}
-            </v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar
+    <v-app-bar
       dense
       fixed
       clipped-left
       app
     >
-      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-icon class="mx-3">fa-youtube</v-icon>
-      <v-toolbar-title class="mr-5 align-center">
+      <v-app-bar-title class="mr-5 align-center">
         <span class="title">{{title}}</span>
-      </v-toolbar-title>
+      </v-app-bar-title>
       <v-spacer></v-spacer>
       <!-- <v-layout row align-center style="max-width: 650px">
         <v-text-field
@@ -46,8 +46,8 @@
           hide-details
         ></v-text-field>
       </v-layout> -->
-    </v-toolbar>
-    <v-content>
+    </v-app-bar>
+    <v-main>
       <v-container fill-height>
         <v-layout justify-center>
           <v-flex>
@@ -55,7 +55,7 @@
           </v-flex>
         </v-layout>
       </v-container>
-    </v-content>
+    </v-main>
         <v-btn
       fab
       bottom

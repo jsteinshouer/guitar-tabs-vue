@@ -2,21 +2,20 @@
 <v-card>
   <v-list two-line subheader>
     <v-subheader inset>Tabs</v-subheader>
-     <v-list-tile
+     <v-list-item
           v-for="tab in tabs"
           :key="tab.tablatureID"
-          avatar
           @click="viewTab(tab.tablatureID)"
         >
-          <v-list-tile-avatar>
+          <v-list-item-avatar>
             <v-icon class="grey lighten-1 white--text">music_note</v-icon>
-          </v-list-tile-avatar>
+          </v-list-item-avatar>
 
-          <v-list-tile-content>
-            <v-list-tile-title>{{ tab.title }}</v-list-tile-title>
-            <!-- <v-list-tile-sub-title>{{ tab.subtitle }}</v-list-tile-sub-title> -->
-          </v-list-tile-content>
-        </v-list-tile>
+          <v-list-item-content>
+            <v-list-item-title>{{ tab.title }}</v-list-item-title>
+            <!-- <v-list-item-sub-title>{{ tab.subtitle }}</v-list-item-sub-title> -->
+          </v-list-item-content>
+        </v-list-item>
   </v-list>
 </v-card>
 </template>
@@ -25,7 +24,6 @@
 export default {
   data() {
     return {
-      
     }
   },
   computed: {
