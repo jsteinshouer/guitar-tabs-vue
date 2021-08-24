@@ -1,7 +1,11 @@
 <template>
 <v-card>
+  <v-card-title>Tabs</v-card-title>
   <v-list two-line subheader>
-    <v-subheader inset>Tabs</v-subheader>
+      <v-skeleton-loader type="list-item-avatar" v-if="loading"></v-skeleton-loader>
+      <v-skeleton-loader type="list-item-avatar" v-if="loading"></v-skeleton-loader>
+      <v-skeleton-loader type="list-item-avatar" v-if="loading"></v-skeleton-loader>
+    <div v-if="!loading"> 
      <v-list-item
           v-for="tab in tabs"
           :key="tab.tablatureID"
@@ -13,9 +17,9 @@
 
           <v-list-item-content>
             <v-list-item-title>{{ tab.title }}</v-list-item-title>
-            <!-- <v-list-item-sub-title>{{ tab.subtitle }}</v-list-item-sub-title> -->
           </v-list-item-content>
         </v-list-item>
+    </div>
   </v-list>
 </v-card>
 </template>
@@ -24,6 +28,7 @@
 export default {
   data() {
     return {
+      loading: false
     }
   },
   computed: {
@@ -32,7 +37,17 @@ export default {
     }  
   },
   created() {
-    this.$store.dispatch('getTabs');
+    var vm = this;
+    if ( this.tabs.length > 0 ) {
+      vm.loading = true;
+    }
+    this.$store.dispatch('getTabs')
+      .then(() => {
+        vm.loading = false;
+      })
+      .catch(error => {
+        console.log(error);
+			});
   },
   methods: {
     viewTab( id ) {

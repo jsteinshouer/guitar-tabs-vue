@@ -65,13 +65,15 @@ export default new Vuex.Store({
 		},
 		getTabs( context ) {
 
-			Vue.http.get('/tablature')
+			return new Promise((resolve, reject) => { 
+				Vue.http.get('/tablature')
 				.then(response => {
 					context.commit("setTabs", response.data.data );
+					resolve( response.data.data );
 				}, error => {
-
-					console.log(error);
+					reject(error);
 				});
+			});
 		},
 		getTab( context, payload ) {
 
