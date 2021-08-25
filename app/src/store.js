@@ -77,13 +77,15 @@ export default new Vuex.Store({
 		},
 		getTab( context, payload ) {
 
-			Vue.http.get('/tablature/' + payload.id )
-				.then(response => {
-					// console.log(response);
-					context.commit("setCurrentTab", response.data.data );
-				}, error => {
-					console.log(error);
-				});
+			return new Promise((resolve, reject) => {
+				Vue.http.get('/tablature/' + payload.id )
+					.then(response => {
+						context.commit("setCurrentTab", response.data.data );
+						resolve( response.data.data );
+					}, error => {
+						reject(error);
+					});
+			});
 		}
 	}
 })

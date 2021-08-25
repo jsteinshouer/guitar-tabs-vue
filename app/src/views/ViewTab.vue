@@ -2,20 +2,23 @@
 	<div>
 	<v-card>
 		<!-- <v-card-title>{{tab.title}}</v-card-title> -->
+		<v-skeleton-loader v-if="loading" type="article"></v-skeleton-loader>
 		<v-card-text>
 			<pre>{{tab.content}}</pre>
 		</v-card-text>
 		<v-card-actions>
 		</v-card-actions>
 	</v-card>
-				<v-btn
-				elevation="2"
-				color="error"
-				@click="deleteTab"
-			>
+	<div class="my-2" v-if="!loading">
+		<v-btn
+			elevation="2"
+			color="error"
+			@click="deleteTab"
+		>
 			<v-icon left>delete</v-icon>
 			DELETE
-			</v-btn>
+		</v-btn>
+	</div>
 </div>
 </template>
 
@@ -23,7 +26,8 @@
 export default {
 	data() {
 		return {
-			id: this.$route.params.id
+			id: this.$route.params.id,
+			loading: true
 		}
 	},
 	computed: {
@@ -40,8 +44,15 @@ export default {
 
 	},
 	created() {
+		let vm = this;
 		this.$store.commit("setCurrentTab", {tablaureID: 0, title: "", content: ""});
-		this.$store.dispatch("getTab", {id: this.id});
+		this.$store.dispatch("getTab", {id: this.id})
+			.then(() => {
+				vm.loading = false;
+			})
+			.catch(error => {
+				console.log(error);
+			});
 	},
 	methods: {
 		deleteTab() {
